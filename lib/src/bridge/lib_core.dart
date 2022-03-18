@@ -1,10 +1,12 @@
+// part of _internal;
+
 import 'package:flutter/services.dart';
 
-import '../_constants.dart';
-import '../manager/tecpal_ble_manager_implements.dart';
+import '../../_constants.dart';
+import '../manager/internal_ble_manager.dart';
 
-abstract class FlutterBLE {
-  final TecpalManger _manager;
+class FlutterBLE {
+  final InternalBleManager _manager;
 
   FlutterBLE._(this._manager);
 
@@ -22,9 +24,9 @@ class FlutterBleLib extends FlutterBLE {
   final Stream<dynamic> _restoreStateEvents =
       const EventChannel(ChannelName.FLUTTER_BLE_LIB).receiveBroadcastStream();
 
-  FlutterBleLib(TecpalManger manager) : super._(manager);
+  FlutterBleLib(InternalBleManager manager) : super._(manager);
 
-  /// 这里延迟的任务
+  /// 延迟的任务
   Future<bool> isClientCreated() => _methodChannel
       .invokeMethod<bool>(MethodName.isClientCreated)
       .then((value) => value!);

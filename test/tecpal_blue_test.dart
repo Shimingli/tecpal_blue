@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tecpal_blue/tecpal_blue.dart';
+import 'package:tecpal_blue/tecpal_blue_lib.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('tecpal_blue');

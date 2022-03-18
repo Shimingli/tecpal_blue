@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:tecpal_blue/manager/tecpal_ble_manager_implements.dart';
-import 'package:tecpal_blue/tecpal_blue.dart';
+import 'package:tecpal_blue/ble_manager.dart';
+import 'package:tecpal_blue/tecpal_blue_lib.dart';
 
 import 'ButtonView.dart';
 
@@ -77,10 +77,13 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  final TecpalManger _bleManager = TecpalManger();
+  final BleManager _bleManager = BleManager();
+
 
   /// 检查权限 检查蓝牙的开关，如果是关了的 记得打开  开始扫描
   Future<void> createClient() async {
+
+
     final clientAlreadyExists = await _bleManager.isClientCreated();
     if (clientAlreadyExists) {
       TecpalBlue.logSming(" clientAlreadyExists ");
@@ -88,16 +91,15 @@ class _MyAppState extends State<MyApp> {
     }else {
       TecpalBlue.logSming(" clientAlready Not Exists ");
     }
-
-    return Future.value();
-    // return _bleManager
-    //     .createClient(
-    //         restoreStateIdentifier: "example-restore-state-identifier",
-    //         restoreStateAction: (peripherals) {
-    //           peripherals.forEach((peripheral) {});
-    //         })
-    //     .catchError((e) {
-    //   return TecpalBlue.logSming("catchError");
-    // });
+    TecpalBlue.logSming(" go this  ");
+    return _bleManager
+        .createClient(
+            restoreStateIdentifier: "example-restore-state-identifier",
+            restoreStateAction: (peripherals) {
+              peripherals.forEach((peripheral) {});
+            })
+        .catchError((e) {
+      return TecpalBlue.logSming("catchError");
+    });
   }
 }
