@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:tecpal_blue/manager/tecpal_ble_manager_implements.dart';
 import 'package:tecpal_blue/tecpal_blue.dart';
+
+import 'ButtonView.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,13 +25,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    TecpalBlue.logSming("hello log");
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
     try {
       platformVersion =
           await TecpalBlue.platformVersion ?? 'Unknown platform version';
@@ -36,9 +37,6 @@ class _MyAppState extends State<MyApp> {
       platformVersion = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -54,9 +52,52 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: SingleChildScrollView(
+                child: _createAutoTestControlPanel(),
+              ),
+            ),
+            Expanded(
+              flex: 9,
+              child: Text('Running on: $_platformVersion\n'),
+            )
+          ]),
         ),
       ),
     );
+  }
+
+  Widget _createAutoTestControlPanel() {
+    return Row(
+      children: <Widget>[
+        ButtonView("开始", action: createClient),
+      ],
+    );
+  }
+
+  final TecpalManger _bleManager = TecpalManger();
+
+  /// 检查权限 检查蓝牙的开关，如果是关了的 记得打开  开始扫描
+  Future<void> createClient() async {
+    final clientAlreadyExists = await _bleManager.isClientCreated();
+    if (clientAlreadyExists) {
+      TecpalBlue.logSming(" clientAlreadyExists ");
+      return Future.value();
+    }else {
+      TecpalBlue.logSming(" clientAlready Not Exists ");
+    }
+
+    return Future.value();
+    // return _bleManager
+    //     .createClient(
+    //         restoreStateIdentifier: "example-restore-state-identifier",
+    //         restoreStateAction: (peripherals) {
+    //           peripherals.forEach((peripheral) {});
+    //         })
+    //     .catchError((e) {
+    //   return TecpalBlue.logSming("catchError");
+    // });
   }
 }
