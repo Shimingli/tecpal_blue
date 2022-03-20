@@ -12,6 +12,7 @@ class TecpalBlue {
       EventChannel(ChannelName.FLUTTER_BLE_LIB_TEST);
 
   static Future<String?> get platformVersion async {
+    /// 这个方法如果在 plugin没有去实现的话，就会抛出null的异常
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }

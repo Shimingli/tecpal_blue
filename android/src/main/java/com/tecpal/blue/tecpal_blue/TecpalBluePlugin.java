@@ -50,6 +50,11 @@ public class TecpalBluePlugin implements FlutterPlugin, MethodCallHandler {
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+
+        if (call.method.equals("getPlatformVersion")) {
+            result.success("Android " + android.os.Build.VERSION.RELEASE);
+        }
+
         for (CallDelegate delegate : delegates) {
             if (delegate.canHandle(call)) {
                 delegate.onMethodCall(call, result);
@@ -72,14 +77,14 @@ public class TecpalBluePlugin implements FlutterPlugin, MethodCallHandler {
                 isClientCreated(result);
                 break;
             default:
-                result.notImplemented();
+//                result.notImplemented();
         }
 
-        if (call.method.equals("getPlatformVersion")) {
-            result.success("Android " + android.os.Build.VERSION.RELEASE);
-        } else {
-            result.notImplemented();
-        }
+//        if (call.method.equals("getPlatformVersion")) {
+//            result.success("Android " + android.os.Build.VERSION.RELEASE);
+//        } else {
+//            result.notImplemented();
+//        }
     }
 
     private void isClientCreated(Result result) {

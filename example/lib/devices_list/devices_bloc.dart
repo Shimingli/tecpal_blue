@@ -76,7 +76,7 @@ class DevicesBloc {
     if (clientAlreadyExists) {
       return Future.value();
     }
-
+    // ios 检查参数是否可用
     return _bleManager
         .createClient(
             restoreStateIdentifier: "example-restore-state-identifier",

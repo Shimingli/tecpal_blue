@@ -32,8 +32,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   rxdart: ^0.26.0
-  # RxDart 扩展了 Dart Streams和 StreamControllers的功能。
-  permission_handler: ^6.1.1
+  # RxDart 扩展了 Dart Streams和 StreamControllers的功能。 某些版本有问题，记得更新最新版本
+  permission_handler: ^9.0.3
 
 dev_dependencies:
   flutter_test:

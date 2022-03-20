@@ -6,6 +6,9 @@ import 'package:tecpal_blue/ble_manager.dart';
 import 'package:tecpal_blue/tecpal_blue_lib.dart';
 
 import 'ButtonView.dart';
+import 'devices_list/devices_bloc.dart';
+import 'devices_list/devices_bloc_provider.dart';
+import "package:tecpal_blue/src/model/ble_device.dart";
 
 void main() {
   runApp(const MyApp());
@@ -19,13 +22,55 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  DevicesBloc? _devicesBloc;
+  StreamSubscription<BleDevice>? _appStateSubscription;
   String _platformVersion = 'Unknown';
+  bool _shouldRunOnResume = true;
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
     TecpalBlue.logSming("hello log");
+  }
+
+  //在 initState的喉，立刻调用，当 inher itedwidget rebuild 喉，也会调用
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_devicesBloc == null) {
+      _devicesBloc = DevicesBlocProvider.of(context);
+      if (_shouldRunOnResume) {
+        _shouldRunOnResume = false;
+        _onResume();
+      }
+    }
+  }
+
+  void _onResume() {
+    final devicesBloc = _devicesBloc;
+    if (devicesBloc == null) {
+      return;
+    }
+    devicesBloc.init();
+    _appStateSubscription = devicesBloc.pickedDevice.listen((bleDevice) async {
+      _onPause();
+      await Navigator.pushNamed(context, "/details");
+      setState(() {
+        _shouldRunOnResume = true;
+      });
+    });
+  }
+
+  void _onPause() {
+    _appStateSubscription?.cancel();
+    _devicesBloc?.dispose();
+  }
+
+  @override
+  void dispose() {
+    _onPause();
+    super.dispose();
   }
 
   Future<void> initPlatformState() async {
@@ -79,16 +124,13 @@ class _MyAppState extends State<MyApp> {
 
   final BleManager _bleManager = BleManager();
 
-
   /// 检查权限 检查蓝牙的开关，如果是关了的 记得打开  开始扫描
   Future<void> createClient() async {
-
-
     final clientAlreadyExists = await _bleManager.isClientCreated();
     if (clientAlreadyExists) {
       TecpalBlue.logSming(" clientAlreadyExists ");
       return Future.value();
-    }else {
+    } else {
       TecpalBlue.logSming(" clientAlready Not Exists ");
     }
     TecpalBlue.logSming(" go this  ");
