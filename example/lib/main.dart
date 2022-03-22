@@ -8,14 +8,78 @@ import 'package:tecpal_blue/tecpal_blue_lib.dart';
 import 'ButtonView.dart';
 import 'devices_list/devices_bloc.dart';
 import 'devices_list/devices_bloc_provider.dart';
-import "package:tecpal_blue/src/model/ble_device.dart";
+import "package:tecpal_blue/src/model/ble_device.dart" show BleDevice;
+
+import 'devices_list/devices_list_view.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState1();
+}
+
+
+class _MyAppState1 extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    TecpalBlue.logSming("hello log");
+  }
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'FlutterBleLib example',
+      theme: ThemeData(
+        primaryColor: const Color(0xFF0A3D91),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: const Color(0xFFCC0000)),
+      ),
+      initialRoute: "/",
+      routes: <String, WidgetBuilder>{
+        "/": (context) => DevicesBlocProvider(child: DevicesListScreen()),
+        "/details": (context) => DevicesBlocProvider(child: DevicesListScreen())
+      },
+      navigatorObservers: [routeObserver],
+    );
+  }
+
+
+  final BleManager _bleManager = BleManager();
+
+  /// 检查权限 检查蓝牙的开关，如果是关了的 记得打开  开始扫描
+  Future<void> createClient() async {
+    final clientAlreadyExists = await _bleManager.isClientCreated();
+    if (clientAlreadyExists) {
+      TecpalBlue.logSming(" clientAlreadyExists ");
+      return Future.value();
+    } else {
+      TecpalBlue.logSming(" clientAlready Not Exists ");
+    }
+    TecpalBlue.logSming(" go this  ");
+    return _bleManager
+        .createClient(
+        restoreStateIdentifier: "example-restore-state-identifier",
+        restoreStateAction: (peripherals) {
+          peripherals.forEach((peripheral) {});
+        })
+        .catchError((e) {
+      return TecpalBlue.logSming("catchError");
+    });
+  }
+}
+
+
+class MyAppOld extends StatefulWidget {
+  const MyAppOld({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

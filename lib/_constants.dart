@@ -4,6 +4,16 @@ abstract class ChannelName {
   static const String FLUTTER_BLE_LIB = "tecpal_blue";
   static const String FLUTTER_BLE_LIB_TEST = FLUTTER_BLE_LIB + "/test";
 
+
+  static const String adapterStateChanges = FLUTTER_BLE_LIB + "/stateChanges";
+  static const String stateRestoreEvents =
+      FLUTTER_BLE_LIB + "/stateRestoreEvents";
+  static const String scanningEvents = FLUTTER_BLE_LIB + "/scanningEvents";
+  static const String connectionStateChangeEvents =
+      FLUTTER_BLE_LIB + "/connectionStateChangeEvents";
+  static const String monitorCharacteristic =
+      FLUTTER_BLE_LIB + "/monitorCharacteristic";
+
 }
 abstract class MethodName {
   static const String LOG_SMING = "log_sming";

@@ -1,9 +1,7 @@
-// part of _internal;
 
 import 'package:tecpal_blue/peripheral.dart';
 
 import '../../ble_manager.dart';
-import '../../tecpal_ble_manager.dart';
 import '../bridge/lib_core.dart';
 
 class InternalBleManager implements BleManager {
@@ -71,10 +69,9 @@ class InternalBleManager implements BleManager {
   }
 
   @override
-  Stream<BluetoothState> observeBluetoothState({bool emitCurrentValue = true}) {
-    // TODO: implement observeBluetoothState
-    throw UnimplementedError();
-  }
+  Stream<BluetoothState> observeBluetoothState(
+      {bool emitCurrentValue = true}) =>
+      _bleLib.observeBluetoothState(emitCurrentValue);
 
   @override
   Future<void> setLogLevel(LogLevel logLevel) {

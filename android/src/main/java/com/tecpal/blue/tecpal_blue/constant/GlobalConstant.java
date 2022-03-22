@@ -24,8 +24,7 @@ public final class GlobalConstant {
         public static final String DESTROY_CLIENT = "destroyClient";
 
         public static final String CANCEL_TRANSACTION = "cancelTransaction";
-        public static final
-        String GET_STATE = "getState";
+        public static final String GET_STATE = "getState";
 
         public static final String ENABLE_RADIO = "enableRadio";
         public static final String DISABLE_RADIO = "disableRadio";

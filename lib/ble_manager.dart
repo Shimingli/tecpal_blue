@@ -42,6 +42,11 @@ abstract class BleManager {
 
   Future<BluetoothState> bluetoothState();
 
+  /// 创建 StreamController ，
+  /// 然后获取 StreamSink 用做事件入口，
+  /// 获取 Stream 对象用于监听，
+  /// 并且通过监听得到 StreamSubscription 管理事件订阅，最后在不需要时关闭即可
+  /// 基于事件流驱动设计代码，然后监听订阅事件，并针对事件变换处理响应。
   Stream<BluetoothState> observeBluetoothState({bool emitCurrentValue = true});
 
   Future<List<Peripheral>> knownPeripherals(List<String> peripheralIdentifiers);
