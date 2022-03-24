@@ -15,6 +15,8 @@ abstract class _ScanResultMetadata {
   static const String isConnectable = "isConnectable";
   static const String overflowServiceUuids = "overflowServiceUUIDs";
 }
+
+
 /// 蓝牙扫描结果
 class ScanResult {
   final Peripheral peripheral;

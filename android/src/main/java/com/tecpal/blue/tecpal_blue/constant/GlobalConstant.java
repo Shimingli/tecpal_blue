@@ -78,4 +78,35 @@ public final class GlobalConstant {
         public static final String WRITE_DESCRIPTOR_FOR_DEVICE = "writeDescriptorForDevice";
     }
 
+
+    public final class ArgumentKey {
+        public static final String RESTORE_STATE_IDENTIFIER = "restoreStateIdentifier";
+        public static final String SCAN_MODE = "scanMode";
+        public static final String CALLBACK_TYPE = "callbackType";
+        public static final String UUIDS = "uuids";
+
+        public static final String TRANSACTION_ID = "transactionId";
+
+        public static final String DEVICE_IDENTIFIER = "deviceIdentifier";
+        public static final String IS_AUTO_CONNECT = "isAutoConnect";
+        public static final String REQUEST_MTU = "requestMtu";
+        public static final String REFRESH_GATT = "refreshGatt";
+        public static final String TIMEOUT_MILLIS = "timeout";
+        public static final String EMIT_CURRENT_VALUE = "emitCurrentValue";
+
+        public static final String LOG_LEVEL = "logLevel";
+
+        public static final String SERVICE_UUID = "serviceUuid";
+        public static final String SERVICE_IDENTIFIER = "serviceId";
+        public static final String CHARACTERISTIC_UUID = "characteristicUuid";
+        public static final String CHARACTERISTIC_IDENTIFIER = "characteristicIdentifier";
+        public static final String DESCRIPTOR_UUID = "descriptorUuid";
+        public static final String DESCRIPTOR_IDENTIFIER = "descriptorIdentifier";
+        public static final String VALUE = "value";
+        public static final String WITH_RESPONSE = "withResponse";
+        public static final
+        String MTU = "mtu";
+
+        public static final String DEVICE_IDENTIFIERS = "deviceIdentifiers";
+    }
 }

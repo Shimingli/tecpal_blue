@@ -1,5 +1,6 @@
 import 'package:tecpal_blue/peripheral.dart';
 import 'package:tecpal_blue/src/manager/internal_ble_manager.dart';
+import 'package:tecpal_blue/src/model/scan_result.dart';
 
 
 typedef RestoreStateAction = Function(List<Peripheral> peripherals);
@@ -55,6 +56,13 @@ abstract class BleManager {
   Future<List<Peripheral>> connectedPeripherals(List<String> serviceUUIDs);
 
   Peripheral createUnsafePeripheral(String peripheralId, {String? name});
+
+  Stream<ScanResult> startPeripheralScan({
+    int scanMode = ScanMode.lowPower,
+    int callbackType = CallbackType.allMatches,
+    List<String> uuids = const [],
+    bool allowDuplicates = false,
+  });
 }
 
 /// State of the Bluetooth Adapter.

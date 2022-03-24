@@ -59,7 +59,8 @@ class DevicesBloc {
         .catchError((e) => _noPermissions())
         .then((_) => _waitForBluetoothPoweredOn())
         .catchError((e) => LogUtils.Sming(" _waitForBluetoothPoweredOn error "))
-        .then((_) => _startScan());
+        .then((_) => _startScan())
+        .catchError((e) => LogUtils.Sming(" _startScan error "));
 
     if (_visibleDevicesController.isClosed) {
       _visibleDevicesController =
@@ -111,7 +112,12 @@ class DevicesBloc {
     subscription = _bleManager
         .observeBluetoothState(emitCurrentValue: true)
         .listen((bluetoothState) async {
-      if (bluetoothState == BluetoothState.POWERED_ON &&
+      //BluetoothState.POWERED_ON  打开
+
+      LogUtils.Sming(" bluetoothState 蓝牙的状态 " + bluetoothState.toString());
+      if (bluetoothState == BluetoothState.POWERED_OFF) {
+        _bleManager.enableRadio();
+      } else if (bluetoothState == BluetoothState.POWERED_ON &&
           !completer.isCompleted) {
         await subscription?.cancel();
         completer.complete();
@@ -121,13 +127,15 @@ class DevicesBloc {
   }
 
   void _startScan() {
-    // _scanSubscription = _bleManager.startPeripheralScan().listen((scanResult) {
-    //   var bleDevice = BleDevice(scanResult);
-    //   if (!bleDevices.contains(bleDevice)) {
-    //     bleDevices.add(bleDevice);
-    //     _visibleDevicesController.add(bleDevices.sublist(0));
-    //   }
-    // });
+    _scanSubscription = _bleManager.startPeripheralScan().listen((scanResult) {
+      var bleDevice = BleDevice(scanResult);
+      if (!bleDevices.contains(bleDevice)) {
+        bleDevices.add(bleDevice);
+        _visibleDevicesController.add(bleDevices.sublist(0));
+      }
+    });
+
+    LogUtils.Sming("_startScan");
   }
 
   Future<void> refresh() async {

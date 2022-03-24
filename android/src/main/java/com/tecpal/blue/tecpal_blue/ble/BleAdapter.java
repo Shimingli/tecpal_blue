@@ -1,5 +1,8 @@
 package com.tecpal.blue.tecpal_blue.ble;
 
+import com.tecpal.blue.tecpal_blue.callback.OnErrorCallback;
+import com.tecpal.blue.tecpal_blue.callback.OnSuccessCallback;
+
 /**
  * @NAME: BleAdapter
  * @Des:
@@ -8,5 +11,17 @@ package com.tecpal.blue.tecpal_blue.ble;
  * @PROJECT_NAME: android
  */
 public interface BleAdapter {
+
+    void enable(
+            String transactionId,
+            OnSuccessCallback<Void> onSuccessCallback,
+            OnErrorCallback onErrorCallback);
+
+    void disable(
+            String transactionId,
+            OnSuccessCallback<Void> onSuccessCallback,
+            OnErrorCallback onErrorCallback);
+
+    String getCurrentState();
 
 }
