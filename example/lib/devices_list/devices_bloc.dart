@@ -105,6 +105,8 @@ class DevicesBloc {
   }
 
   /// 这个是一个异步任务，一定要等到 user 打开蓝牙的开关之后，才能继续下一步的动作
+  /// 等到user 同意打开蓝牙，才能进行到下一步
+  /// 如果user 禁止了蓝牙的，那么就会fail，
   /// 请看测试类 completer_test.dart
   Future<void> _waitForBluetoothPoweredOn() async {
     Completer completer = Completer();
@@ -113,7 +115,6 @@ class DevicesBloc {
         .observeBluetoothState(emitCurrentValue: true)
         .listen((bluetoothState) async {
       //BluetoothState.POWERED_ON  打开
-
       LogUtils.Sming(" bluetoothState 蓝牙的状态 " + bluetoothState.toString());
       if (bluetoothState == BluetoothState.POWERED_OFF) {
         _bleManager.enableRadio();
@@ -127,6 +128,7 @@ class DevicesBloc {
   }
 
   void _startScan() {
+    LogUtils.Sming("_startScan");
     _scanSubscription = _bleManager.startPeripheralScan().listen((scanResult) {
       var bleDevice = BleDevice(scanResult);
       if (!bleDevices.contains(bleDevice)) {
@@ -134,8 +136,6 @@ class DevicesBloc {
         _visibleDevicesController.add(bleDevices.sublist(0));
       }
     });
-
-    LogUtils.Sming("_startScan");
   }
 
   Future<void> refresh() async {

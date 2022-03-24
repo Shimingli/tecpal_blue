@@ -1,6 +1,10 @@
 package com.tecpal.blue.tecpal_blue.ble;
 
+
+import com.tecpal.blue.tecpal_blue.entity.ScanResultEntity;
+
 import com.tecpal.blue.tecpal_blue.callback.OnErrorCallback;
+import com.tecpal.blue.tecpal_blue.callback.OnEventCallback;
 import com.tecpal.blue.tecpal_blue.callback.OnSuccessCallback;
 
 /**
@@ -24,4 +28,7 @@ public interface BleAdapter {
 
     String getCurrentState();
 
+    void startDeviceScan(
+            OnEventCallback<ScanResultEntity> onEventCallback,
+            OnErrorCallback onErrorCallback);
 }

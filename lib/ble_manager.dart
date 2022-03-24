@@ -2,8 +2,8 @@ import 'package:tecpal_blue/peripheral.dart';
 import 'package:tecpal_blue/src/manager/internal_ble_manager.dart';
 import 'package:tecpal_blue/src/model/scan_result.dart';
 
-
 typedef RestoreStateAction = Function(List<Peripheral> peripherals);
+
 /// Level of details library is to output in logs.
 enum LogLevel { none, verbose, debug, info, warning, error }
 
@@ -37,6 +37,8 @@ abstract class BleManager {
 
   Future<LogLevel> logLevel();
 
+  /// 有个开启蓝牙的过程，但是是广播接受的消息
+  /// todo 状态如何 callback 回来
   Future<void> enableRadio({String transactionId});
 
   Future<void> disableRadio({String transactionId});
@@ -51,7 +53,6 @@ abstract class BleManager {
   Stream<BluetoothState> observeBluetoothState({bool emitCurrentValue = true});
 
   Future<List<Peripheral>> knownPeripherals(List<String> peripheralIdentifiers);
-
 
   Future<List<Peripheral>> connectedPeripherals(List<String> serviceUUIDs);
 

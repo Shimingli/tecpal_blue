@@ -8,6 +8,7 @@ import com.tecpal.blue.tecpal_blue.constant.GlobalConstant;
 import com.tecpal.blue.tecpal_blue.delegate.BluetoothStateDelegate;
 import com.tecpal.blue.tecpal_blue.delegate.CallDelegate;
 import com.tecpal.blue.tecpal_blue.delegate.LogUtilDelegate;
+import com.tecpal.blue.tecpal_blue.delegate.ScannerDelegate;
 import com.tecpal.blue.tecpal_blue.event.TestStreamHandler;
 
 import java.util.LinkedList;
@@ -48,6 +49,7 @@ public class TecpalBluePlugin implements FlutterPlugin, MethodCallHandler {
         bleAdapter = BleAdapterFactory.getNewAdapter(flutterPluginBinding.getApplicationContext());
         delegates.add(new LogUtilDelegate());
         delegates.add(new BluetoothStateDelegate(bleAdapter));
+        delegates.add(new ScannerDelegate(bleAdapter));
     }
 
     @Override

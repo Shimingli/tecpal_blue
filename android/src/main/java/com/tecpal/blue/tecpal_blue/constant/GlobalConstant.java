@@ -83,6 +83,7 @@ public final class GlobalConstant {
         public static final String RESTORE_STATE_IDENTIFIER = "restoreStateIdentifier";
         public static final String SCAN_MODE = "scanMode";
         public static final String CALLBACK_TYPE = "callbackType";
+        @Deprecated
         public static final String UUIDS = "uuids";
 
         public static final String TRANSACTION_ID = "transactionId";
